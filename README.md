@@ -1812,7 +1812,6 @@ Image.asset(
 ## 5️⃣0️⃣ CircleAvatar - صورة دائرية
 
 ```dart
-// من الإنترنت
 CircleAvatar(
   radius: 50,
   backgroundImage: NetworkImage('https://picsum.photos/200'),
@@ -1992,8 +1991,7 @@ class _MyScreenState extends State<MyScreen> {
 ## 5️⃣4️⃣ StatefulBuilder
 
 ```dart
-// تحديث جزء من الشاشة بدون StatefulWidget
-StatefulBuilder(
+StatefulBuilder(// تحديث جزء من الشاشة بدون StatefulWidget
   builder: (context, setState) {
     int count = 0;
     
