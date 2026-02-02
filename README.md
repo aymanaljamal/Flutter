@@ -1340,7 +1340,6 @@ Navigator.pop(context, "Some data");
 ## 4️⃣0️⃣ Material Colors
 
 ```dart
-// الألوان الأساسية
 Colors.red
 Colors.blue
 Colors.green
