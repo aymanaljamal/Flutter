@@ -1754,7 +1754,6 @@ class PostDetailScreen extends StatelessWidget {
 ## 4️⃣8️⃣ Image من الإنترنت
 
 ```dart
-// صورة بسيطة
 Image.network('https://picsum.photos/400/200');
 
 // مع خصائص
