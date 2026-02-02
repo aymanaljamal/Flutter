@@ -9,22 +9,22 @@
 ## 📑 جدول المحتويات (Table of Contents)
 
 | القسم | الموضوع | الصفحة |
-|------|---------|--------|
-| 1 | Dart - الأساسيات | ⬇️ |
-| 2 | Collections - البيانات | ⬇️ |
-| 3 | OOP - البرمجة الكائنية | ⬇️ |
-| 4 | Flutter - البداية | ⬇️ |
-| 5 | Layout - بناء الواجهة | ⬇️ |
-| 6 | Lists - القوائم | ⬇️ |
-| 7 | Buttons - الأزرار | ⬇️ |
-| 8 | Navigation - التنقل | ⬇️ |
-| 9 | Colors & Themes | ⬇️ |
-| 10 | Async + API | ⬇️ |
-| 11 | Images - الصور | ⬇️ |
-| 12 | Storage - التخزين | ⬇️ |
-| 13 | State Management | ⬇️ |
-| 14 | Advanced Widgets | ⬇️ |
-| 15 | Best Practices | ⬇️ |
+|------|---------|
+| 1 | Dart - الأساسيات |
+| 2 | Collections - البيانات |
+| 3 | OOP - البرمجة الكائنية |
+| 4 | Flutter - البداية |
+| 5 | Layout - بناء الواجهة |
+| 6 | Lists - القوائم |
+| 7 | Buttons - الأزرار |
+| 8 | Navigation - التنقل |
+| 9 | Colors & Themes |
+| 10 | Async + API |
+| 11 | Images - الصور |
+| 12 | Storage - التخزين |
+| 13 | State Management |
+| 14 | Advanced Widgets |
+| 15 | Best Practices |
 
 ---
 
@@ -1886,7 +1886,102 @@ Future<void> clearAll() async {
   await prefs.clear();
 }
 ```
+---
+## Dropdown
+```dart
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+class DropdownFromPrefs extends StatefulWidget {
+  const DropdownFromPrefs({super.key});
+
+  @override
+  State<DropdownFromPrefs> createState() => _DropdownFromPrefsState();
+}
+
+class _DropdownFromPrefsState extends State<DropdownFromPrefs> {
+  List<String> options = [];
+  String? selected;
+
+  @override
+  void initState() {
+    super.initState();
+    loadOptions();
+  }
+
+  // ✅ تحميل القائمة من SharedPreferences
+  Future<void> loadOptions() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    // إذا ما في بيانات مخزنة، استخدم default list
+    final savedList = prefs.getStringList('fruits') ??
+        ['Apple', 'Orange', 'Mango', 'Banana'];
+
+    // ✅ (اختياري) خزّنها أول مرة عشان تصير موجودة في prefs
+    await prefs.setStringList('fruits', savedList);
+
+    setState(() {
+      options = savedList;
+
+      // ✅ لو ما كان في selected، خلي أول عنصر
+      selected ??= options.isNotEmpty ? options[0] : null;
+    });
+  }
+
+  // ✅ حفظ الاختيار الحالي
+  Future<void> saveSelected(String value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('selectedFruit', value);
+  }
+
+  // ✅ تحميل الاختيار السابق (إذا بدك)
+  Future<void> loadSelected() async {
+    final prefs = await SharedPreferences.getInstance();
+    final saved = prefs.getString('selectedFruit');
+    if (saved != null) {
+      setState(() => selected = saved);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Dropdown from SharedPreferences")),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: options.isEmpty
+            ? const Center(child: CircularProgressIndicator())
+            : Column(
+                children: [
+                  DropdownButton<String>(
+                    isExpanded: true,
+                    value: selected,
+                    items: options.map((e) {
+                      return DropdownMenuItem<String>(
+                        value: e,
+                        child: Text(e),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      if (value == null) return;
+                      setState(() => selected = value);
+                      saveSelected(value);
+                    },
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  Text(
+                    "Selected: $selected",
+                    style: const TextStyle(fontSize: 18),
+                  ),
+                ],
+              ),
+      ),
+    );
+  }
+}
+```
 ---
 
 ## 5️⃣2️⃣ مثال عملي: Login System
