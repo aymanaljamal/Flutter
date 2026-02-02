@@ -126,7 +126,6 @@ print(data!.length);  // تأكيد أن data ليست null
 ## 6️⃣ Operators
 
 ```dart
-// حسابية
 int sum = 5 + 3;      // 8
 int div = 10 ~/ 3;    // 3 (قسمة صحيحة)
 int mod = 10 % 3;     // 1 (الباقي)
@@ -206,7 +205,7 @@ do {
 ## 9️⃣ Functions
 
 ```dart
-// دالة عادية
+
 int add(int a, int b) {
   return a + b;
 }
