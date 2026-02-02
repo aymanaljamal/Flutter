@@ -1,747 +1,555 @@
-# 📱 دليل شامل: Flutter UI Components & Data Persistence
 
-> دليل كامل يشرح **Layouts / Widgets / Navigation / Lifecycle** وطرق **حفظ البيانات** في تطبيقات Flutter (بنفس فكرة دليل Android اللي عندك)
+# 🌟 Flutter & Dart – COMPLETE STUDY GUIDE
 
----
+### 🚀 From ZERO to REAL Applications
 
-## 📁 هيكل مشروع Flutter (مختصر مهم)
-
-أهم ملفات/مجلدات رح تتعامل معها:
-
-```
-lib/
-  main.dart
-  screens/
-  widgets/
-  models/
-  services/
-assets/
-  images/
-pubspec.yaml
-```
-
-* `pubspec.yaml`: dependencies + assets
-* `lib/main.dart`: نقطة الدخول للتطبيق
-* `screens/`: الشاشات (Pages)
-* `widgets/`: ويدجتس قابلة لإعادة الاستخدام
-* `models/`: Data models (User, Product, …)
-* `services/`: API / storage / helpers
+> 📌 **README.md تعليمي شامل – للدراسة والمراجعة والاحتراف**
 
 ---
 
-## 1️⃣ pubspec.yaml (Dependencies + Assets)
+## 🧠 الفكرة العامة (اقرأها أولًا)
 
-### Dependencies شائعة
+Flutter = بناء تطبيق كامل
+من **Widgets صغيرة**
+مركبة فوق بعض
+وكل شيء يتحكم فيه **Dart**
 
-```yaml
-dependencies:
-  flutter:
-    sdk: flutter
-
-  # Networking
-  http: ^1.2.2
-
-  # JSON (اختياري — الأفضل مع code generation)
-  json_annotation: ^4.9.0
-
-  # Persistence
-  shared_preferences: ^2.3.2
-  hive: ^2.2.3
-  hive_flutter: ^1.1.0
-
-  # Local DB (اختياري)
-  sqflite: ^2.3.3
-  path_provider: ^2.1.4
-
-  # Secure storage (للأشياء الحساسة)
-  flutter_secure_storage: ^9.2.2
-```
-
-### Assets (صور/ملفات)
-
-```yaml
-flutter:
-  assets:
-    - assets/images/
-```
+> ✨ **كل شيء في Flutter هو Widget**
 
 ---
 
-## 2️⃣ main.dart (نقطة الدخول + MaterialApp + Theme)
+# 🟥 1) Dart – الأساسيات (لغة البرمجة)
+
+## 1️⃣ ما هي Dart؟
+
+* لغة من Google
+* Strongly Typed
+* Null Safe
+* سريعة
+* أساس Flutter
+
+---
+
+## 2️⃣ أول برنامج Dart
 
 ```dart
-import 'package:flutter/material.dart';
-
 void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Guide App',
-      debugShowCheckedModeBanner: false,
-
-      // Theme (بديل styles.xml + colors.xml)
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
-        useMaterial3: true,
-        textTheme: const TextTheme(
-          titleLarge: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-          bodyMedium: TextStyle(fontSize: 16),
-        ),
-      ),
-
-      home: const HomeScreen(),
-    );
-  }
-}
-
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: AppBar(title: Text('Home')),
-      body: Center(child: Text('Hello Flutter')),
-    );
-  }
+  print("Hello World");
 }
 ```
 
+* `main()` نقطة البداية
+* `print` للطباعة
+
 ---
 
-# 📐 Layouts في Flutter (بدائل Linear/Relative/Constraint…)
-
-## ✅ 1) Column / Row (بديل LinearLayout)
-
-* `Column`: عمودي
-* `Row`: أفقي
-* أهم شي: توزيع المساحة باستخدام `Expanded` / `Flexible` (بديل weight)
+## 3️⃣ المتغيرات (Variables)
 
 ```dart
-Column(
-  crossAxisAlignment: CrossAxisAlignment.stretch,
-  children: [
-    const Text('Item 1'),
-    Expanded(
-      child: Container(
-        alignment: Alignment.center,
-        child: const Text('Takes remaining space'),
-      ),
-    ),
-    ElevatedButton(
-      onPressed: () {},
-      child: const Text('Button'),
-    ),
-  ],
-);
-```
-
-### بديل `layout_weight`
-
-* `Expanded(flex: 1)` مثل weight=1
-* `Expanded(flex: 2)` مثل weight=2
-
-```dart
-Row(
-  children: [
-    Expanded(flex: 1, child: Container(height: 60)),
-    Expanded(flex: 2, child: Container(height: 60)),
-  ],
-);
+int age = 21;
+double gpa = 3.5;
+String name = "Tareq";
+bool isStudent = true;
 ```
 
 ---
 
-## ✅ 2) Margin vs Padding (نفس المفهوم)
-
-في Flutter:
-
-* `Padding(...)` = padding
-* `Container(margin: ...)` = margin
+## 4️⃣ var / final / const
 
 ```dart
-Container(
-  margin: const EdgeInsets.all(16),        // Margin
-  padding: const EdgeInsets.symmetric(
-    horizontal: 20, vertical: 10),         // Padding
-  child: const Text('Box'),
-);
-```
-
-**EdgeInsets الأكثر استخداماً**
-
-```dart
-EdgeInsets.all(16)
-EdgeInsets.only(top: 10, bottom: 10)
-EdgeInsets.symmetric(horizontal: 12, vertical: 8)
+var x = 10;        // Dart يحدد النوع
+final y = 20;      // ثابت وقت التشغيل
+const z = 30;      // ثابت وقت الترجمة
 ```
 
 ---
 
-## ✅ 3) Stack (بديل FrameLayout)
+## 5️⃣ Null Safety (مهم جدًا)
 
 ```dart
-Stack(
-  children: [
-    Image.asset('assets/images/bg.jpg', fit: BoxFit.cover, width: double.infinity),
-    const Positioned(
-      left: 16,
-      bottom: 16,
-      child: Text('Text over image', style: TextStyle(color: Colors.white, fontSize: 22)),
-    ),
-    Positioned(
-      right: 16,
-      bottom: 16,
-      child: ElevatedButton(
-        onPressed: () {},
-        child: const Text('Click'),
-      ),
-    ),
-  ],
+String? title;        // ممكن null
+String name = "Ali";  // لا يقبل null
+```
+
+### أدوات التعامل مع null:
+
+```dart
+title ?? "Default";   // بديل
+title!;               // تأكيد
+```
+
+---
+
+## 6️⃣ Operators
+
+* حسابية: `+ - * / ~/ %`
+* مقارنة: `== != > <`
+* منطقية: `&& || !`
+
+---
+
+## 7️⃣ الشروط (Conditions)
+
+```dart
+if (age >= 18) {
+  print("Adult");
+} else {
+  print("Minor");
+}
+```
+
+### Ternary
+
+```dart
+age >= 18 ? "Adult" : "Minor";
+```
+
+---
+
+## 8️⃣ Loops
+
+```dart
+for (int i = 0; i < 5; i++) {}
+while (x < 10) {}
+```
+
+---
+
+## 9️⃣ Functions
+
+```dart
+int add(int a, int b) {
+  return a + b;
+}
+```
+
+### Arrow function
+
+```dart
+int add(int a, int b) => a + b;
+```
+
+---
+
+## 🔟 Parameters
+
+### Positional
+
+```dart
+void f(int a, int b) {}
+```
+
+### Optional
+
+```dart
+void f(int a, [int b = 0]) {}
+```
+
+### Named
+
+```dart
+void f({required String name, int age = 0}) {}
+```
+
+---
+
+# 🟥 2) Collections – البيانات
+
+## 1️⃣1️⃣ List
+
+```dart
+List<int> nums = [1, 2, 3];
+```
+
+---
+
+## 1️⃣2️⃣ Set (بدون تكرار)
+
+```dart
+Set<int> s = {1, 2, 2}; // {1,2}
+```
+
+---
+
+## 1️⃣3️⃣ Map (Key / Value)
+
+```dart
+Map<String, int> scores = {
+  "Ali": 90,
+};
+```
+
+---
+
+## 1️⃣4️⃣ List Methods
+
+```dart
+nums.map((e) => e * 2);
+nums.where((e) => e.isEven);
+nums.reduce((a, b) => a + b);
+```
+
+---
+
+# 🟥 3) OOP – البرمجة الكائنية
+
+## 1️⃣5️⃣ Class
+
+```dart
+class Student {
+  final String name;
+  Student(this.name);
+}
+```
+
+---
+
+## 1️⃣6️⃣ Inheritance
+
+```dart
+class Person {}
+class Student extends Person {}
+```
+
+---
+
+## 1️⃣7️⃣ Override
+
+```dart
+@override
+Widget build(BuildContext context) {}
+```
+
+---
+
+# 🟥 4) Flutter – البداية الحقيقية
+
+## 1️⃣8️⃣ تشغيل التطبيق
+
+```dart
+void main() {
+  runApp(MyApp());
+}
+```
+
+---
+
+## 1️⃣9️⃣ MaterialApp
+
+```dart
+MaterialApp(
+  home: HomeScreen(),
 );
 ```
 
 ---
 
-## ✅ 4) SingleChildScrollView (بديل ScrollView)
+## 2️⃣0️⃣ Stateless vs Stateful
 
-> ملاحظة: مثل Android، الأفضل ما تحط `ListView` جوّا `SingleChildScrollView` إلا بحذر.
+### StatelessWidget
 
-```dart
-SingleChildScrollView(
-  padding: const EdgeInsets.all(16),
-  child: Column(
-    children: const [
-      Text('Long content...'),
-      SizedBox(height: 20),
-      Text('More content...'),
-    ],
-  ),
-);
-```
+* ثابت
+* بدون تغيير
+
+### StatefulWidget
+
+* متغير
+* فيه State + setState
 
 ---
 
-## ✅ 5) Table (بديل TableLayout)
+## 2️⃣1️⃣ setState()
 
 ```dart
-Table(
-  border: TableBorder.all(),
-  columnWidths: const {
-    0: FlexColumnWidth(1),
-    1: FlexColumnWidth(2),
-  },
-  children: const [
-    TableRow(children: [
-      Padding(padding: EdgeInsets.all(8), child: Text('Name')),
-      Padding(padding: EdgeInsets.all(8), child: Text('Email')),
-    ]),
-    TableRow(children: [
-      Padding(padding: EdgeInsets.all(8), child: Text('Ahmad')),
-      Padding(padding: EdgeInsets.all(8), child: Text('a@x.com')),
-    ]),
-  ],
-);
+setState(() {
+  counter++;
+});
 ```
+
+* يغير البيانات
+* يعيد رسم الشاشة
 
 ---
 
-## ✅ 6) “ConstraintLayout” في Flutter؟
+## 2️⃣2️⃣ build()
 
-Flutter ما عنده ConstraintLayout بنفس الفكرة، لأن **كل شيء مبني على Constraints** أساساً. البدائل العملية:
-
-* `Row/Column + Expanded/Flexible`
-* `Stack + Positioned`
-* `Align`
-* `LayoutBuilder` (لو بدك سلوك حسب الحجم)
-
-مثال LayoutBuilder:
-
-```dart
-LayoutBuilder(
-  builder: (context, constraints) {
-    if (constraints.maxWidth > 600) {
-      return Row(children: const [Expanded(child: Text('Tablet Layout'))]);
-    }
-    return const Text('Phone Layout');
-  },
-);
-```
+* ترسم UI
+* تُستدعى كثير
+* ❌ لا async
 
 ---
 
-# 🧩 UI Components (Widgets)
+## 2️⃣3️⃣ BuildContext
 
-## Scaffold (هيكل الشاشة)
+* موقعك في Widget Tree
+* يستخدم مع:
+
+  * Navigator
+  * Theme
+  * MediaQuery
+
+---
+
+# 🟥 5) Layout – بناء الواجهة
+
+## 2️⃣4️⃣ Scaffold
 
 ```dart
 Scaffold(
-  appBar: AppBar(title: const Text('Title')),
-  body: const Center(child: Text('Body')),
-  floatingActionButton: FloatingActionButton(
-    onPressed: () {},
-    child: const Icon(Icons.add),
-  ),
-);
-```
-
-## Text (بديل TextView)
-
-```dart
-Text(
-  'Hello',
-  maxLines: 2,
-  overflow: TextOverflow.ellipsis,
-  style: const TextStyle(
-    fontSize: 16,
-    fontWeight: FontWeight.bold,
-    color: Colors.black,
-  ),
-);
-```
-
-## TextField (بديل EditText)
-
-```dart
-final controller = TextEditingController();
-
-TextField(
-  controller: controller,
-  keyboardType: TextInputType.emailAddress,
-  obscureText: false,
-  decoration: const InputDecoration(
-    labelText: 'Email',
-    hintText: 'Enter email',
-    prefixIcon: Icon(Icons.email),
-    border: OutlineInputBorder(),
-  ),
-);
-```
-
-## Buttons
-
-```dart
-ElevatedButton(onPressed: () {}, child: const Text('Elevated'));
-TextButton(onPressed: () {}, child: const Text('Text'));
-OutlinedButton(onPressed: () {}, child: const Text('Outlined'));
-IconButton(onPressed: () {}, icon: const Icon(Icons.delete));
-```
-
-## Image
-
-```dart
-Image.asset('assets/images/logo.png', width: 120);
-Image.network('https://...', fit: BoxFit.cover);
-```
-
-## Card
-
-```dart
-Card(
-  elevation: 4,
-  child: Padding(
-    padding: const EdgeInsets.all(16),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: const [
-        Text('Card title', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        SizedBox(height: 6),
-        Text('Card content...'),
-      ],
-    ),
-  ),
-);
-```
-
-## ListView (بديل RecyclerView)
-
-الأفضل للأداء: `ListView.builder`
-
-```dart
-ListView.builder(
-  itemCount: 100,
-  itemBuilder: (context, index) {
-    return ListTile(
-      title: Text('Item $index'),
-      onTap: () {},
-    );
-  },
+  appBar: AppBar(),
+  body: ...
 );
 ```
 
 ---
 
-# 🧭 Navigation (بديل Intents)
+## 2️⃣5️⃣ Container
 
-## 1) فتح شاشة جديدة (push)
+* لون
+* حجم
+* Padding
+* Margin
 
 ```dart
-Navigator.push(
-  context,
-  MaterialPageRoute(builder: (_) => const DetailsScreen(id: 7)),
+Container(
+  color: Colors.blue,
+  padding: EdgeInsets.all(16),
 );
 ```
 
-## 2) رجوع (pop)
+---
+
+## 2️⃣6️⃣ SizedBox
+
+```dart
+SizedBox(height: 20);
+```
+
+---
+
+## 2️⃣7️⃣ Column & Row
+
+* Column ⬇
+* Row ➡
+
+### Main / Cross Axis
+
+| Widget | Main  | Cross |
+| ------ | ----- | ----- |
+| Column | عمودي | أفقي  |
+| Row    | أفقي  | عمودي |
+
+---
+
+## 2️⃣8️⃣ Expanded / Flexible
+
+* تقسيم المساحة
+* يعمل على Main Axis
+
+---
+
+## 2️⃣9️⃣ Stack
+
+* Widgets فوق بعض
+
+---
+
+# 🟥 6) القوائم (Lists UI)
+
+## 3️⃣0️⃣ ListView
+
+* Scroll
+* عناصر كثيرة
+
+---
+
+## 3️⃣1️⃣ ListView.builder
+
+```dart
+itemBuilder: (context, index) {}
+```
+
+* `index` = رقم العنصر
+
+---
+
+## 3️⃣2️⃣ ListTile
+
+* leading
+* title
+* subtitle
+* trailing
+
+---
+
+## 3️⃣3️⃣ Card
+
+* شكل جاهز
+* ظل
+* حواف
+
+---
+
+# 🟥 7) الأزرار & Callbacks
+
+## 3️⃣4️⃣ Buttons
+
+```dart
+ElevatedButton(
+  onPressed: myFunction,
+);
+```
+
+📌 الويدجت **ينادي الدالة فقط**
+
+---
+
+# 🟥 8) Navigation (شاشتين)
+
+## 3️⃣5️⃣ فتح شاشة
+
+```dart
+Navigator.push(...)
+```
+
+## 3️⃣6️⃣ رجوع
 
 ```dart
 Navigator.pop(context);
 ```
 
-## 3) تمرير بيانات للشاشة الثانية
+---
+
+# 🟥 9) الألوان 🎨
+
+## 3️⃣7️⃣ Material Colors
 
 ```dart
-class DetailsScreen extends StatelessWidget {
-  final int id;
-  const DetailsScreen({super.key, required this.id});
-
-  @override
-  Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(title: Text('Details $id')),
-    body: Center(child: Text('Item id = $id')),
-  );
-}
+Colors.red.shade700
 ```
 
-## 4) إرجاع نتيجة (مثل startActivityForResult)
+* 50 فاتح
+* 900 غامق
+
+---
+
+# 🟥 🔟 Async + API
+
+## 3️⃣8️⃣ Future / async
 
 ```dart
-final result = await Navigator.push<String>(
-  context,
-  MaterialPageRoute(builder: (_) => const PickScreen()),
-);
-
-if (result != null) {
-  debugPrint('Picked: $result');
-}
+Future<int> load() async {}
 ```
 
 ---
 
-# ♻️ Lifecycle في Flutter (بديل Activity Lifecycle)
-
-## StatefulWidget Lifecycle
-
-* `initState()` مثل “تهيئة أول مرة”
-* `build()` رسم الواجهة
-* `dispose()` تنظيف الموارد
+## 3️⃣9️⃣ HTTP Request
 
 ```dart
-class Demo extends StatefulWidget {
-  const Demo({super.key});
-
-  @override
-  State<Demo> createState() => _DemoState();
-}
-
-class _DemoState extends State<Demo> {
-  @override
-  void initState() {
-    super.initState();
-    debugPrint('initState');
-  }
-
-  @override
-  void dispose() {
-    debugPrint('dispose');
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    debugPrint('build');
-    return const SizedBox();
-  }
-}
-```
-
-## App Lifecycle (Background/Foreground)
-
-```dart
-class AppLifeObserver extends StatefulWidget {
-  const AppLifeObserver({super.key});
-
-  @override
-  State<AppLifeObserver> createState() => _AppLifeObserverState();
-}
-
-class _AppLifeObserverState extends State<AppLifeObserver>
-    with WidgetsBindingObserver {
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addObserver(this);
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    debugPrint('App state: $state'); // resumed, paused, inactive...
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) => const SizedBox();
-}
+http.get(Uri.parse(url));
 ```
 
 ---
 
-# 💾 Data Persistence في Flutter (نفس فكرة SharedPrefs / SQLite / Files)
-
-## ✅ جدول سريع (مثل جدول Android)
-
-| الطريقة                  | الاستخدام               | حجم البيانات |
-| ------------------------ | ----------------------- | ------------ |
-| `shared_preferences`     | إعدادات بسيطة key-value | صغير         |
-| `flutter_secure_storage` | Tokens/Secrets          | صغير + حساس  |
-| `hive`                   | كاش + Objects بسرعة     | متوسط        |
-| `sqflite`                | بيانات منظمة (جداول)    | متوسط-كبير   |
-| `path_provider + files`  | ملفات محلية (نص/JSON)   | متنوع        |
-
----
-
-## 🔑 1) SharedPreferences (بديل SharedPreferences Android)
-
-### حفظ/قراءة/حذف
+## 4️⃣0️⃣ JSON Decode
 
 ```dart
-import 'package:shared_preferences/shared_preferences.dart';
-
-class Prefs {
-  static const _keyUsername = 'username';
-  static const _keyLoggedIn = 'isLoggedIn';
-
-  static Future<void> saveLogin(String username) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_keyUsername, username);
-    await prefs.setBool(_keyLoggedIn, true);
-  }
-
-  static Future<String> getUsername() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_keyUsername) ?? 'Guest';
-  }
-
-  static Future<void> logout() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove(_keyUsername);
-    await prefs.setBool(_keyLoggedIn, false);
-  }
-}
-```
-
-> مثل Android: ما تخزن أشياء حساسة (token) هنا، استخدم Secure Storage.
-
----
-
-## 🔒 2) Secure Storage (للـ Tokens)
-
-```dart
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-
-class Secure {
-  static const _storage = FlutterSecureStorage();
-
-  static Future<void> saveToken(String token) =>
-      _storage.write(key: 'token', value: token);
-
-  static Future<String?> readToken() =>
-      _storage.read(key: 'token');
-
-  static Future<void> clear() => _storage.deleteAll();
-}
+json.decode(response.body);
 ```
 
 ---
 
-## 📦 3) Hive (Local NoSQL سريع)
-
-### Setup سريع
+## 4️⃣1️⃣ Model Class
 
 ```dart
-import 'package:hive_flutter/hive_flutter.dart';
-
-Future<void> initHive() async {
-  await Hive.initFlutter();
-  await Hive.openBox('appBox');
-}
-
-class LocalCache {
-  static Box get box => Hive.box('appBox');
-
-  static void saveUserJson(String json) => box.put('user', json);
-  static String? loadUserJson() => box.get('user');
-}
+factory Post.fromJson(Map json) {}
 ```
 
 ---
 
-## 🗃️ 4) SQLite (sqflite) للفورمات المنظمة
+## 4️⃣2️⃣ FutureBuilder
 
-> مناسب لو عندك جداول وعلاقات واستعلامات.
+* Loading
+* Error
+* Data
+
+---
+
+## 🟥 11) الصور 🖼️
+
+### API Image
 
 ```dart
-import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
+Image.network(url);
+```
 
-class DB {
-  static Database? _db;
+### Asset Image
 
-  static Future<Database> instance() async {
-    if (_db != null) return _db!;
-    final path = join(await getDatabasesPath(), 'app.db');
-    _db = await openDatabase(
-      path,
-      version: 1,
-      onCreate: (db, v) async {
-        await db.execute('''
-          CREATE TABLE users(
-            id INTEGER PRIMARY KEY,
-            name TEXT,
-            email TEXT
-          )
-        ''');
-      },
-    );
-    return _db!;
-  }
-
-  static Future<void> insertUser(int id, String name, String email) async {
-    final db = await instance();
-    await db.insert('users', {'id': id, 'name': name, 'email': email});
-  }
-}
+```dart
+Image.asset("assets/images/logo.png");
 ```
 
 ---
 
-# 🌐 Networking + JSON (بديل Volley + Gson)
+## 🟥 12) التخزين المحلي
 
-## 1) HTTP GET
-
-```dart
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-
-Future<Map<String, dynamic>> fetchUser() async {
-  final res = await http.get(Uri.parse('https://api.example.com/user'));
-  if (res.statusCode != 200) throw Exception('Failed');
-  return jsonDecode(res.body) as Map<String, dynamic>;
-}
-```
-
-## 2) Model بسيط + fromJson/toJson
+## 4️⃣3️⃣ SharedPreferences
 
 ```dart
-class User {
-  final String name;
-  final int age;
-
-  User({required this.name, required this.age});
-
-  factory User.fromJson(Map<String, dynamic> json) =>
-      User(name: json['name'], age: json['age']);
-
-  Map<String, dynamic> toJson() => {'name': name, 'age': age};
-}
+prefs.setDouble("balance", 500);
 ```
 
 ---
 
-# 📐 Orientation & Responsive (بديل layout-land + sw600dp)
+## 🟥 13) بدون StatefulWidget
 
-## 1) OrientationBuilder
+## 4️⃣4️⃣ بدائل
 
-```dart
-OrientationBuilder(
-  builder: (context, orientation) {
-    if (orientation == Orientation.landscape) {
-      return const Center(child: Text('Landscape UI'));
-    }
-    return const Center(child: Text('Portrait UI'));
-  },
-);
-```
-
-## 2) MediaQuery (أبعاد الشاشة)
-
-```dart
-final w = MediaQuery.of(context).size.width;
-final isTablet = w >= 600;
-```
-
-## 3) قفل الاتجاه (مثل Manifest)
-
-```dart
-import 'package:flutter/services.dart';
-
-await SystemChrome.setPreferredOrientations([
-  DeviceOrientation.portraitUp,
-]);
-```
+* StatefulBuilder
+* ValueNotifier
+* FutureBuilder
+* StreamBuilder
 
 ---
 
-# 📏 الوحدات (Units) في Flutter
+## ❌ 14) أخطاء شائعة
 
-* Flutter يستخدم **logical pixels** (مثل dp conceptually)
-* النص يتأثر بـ **Text Scale Factor** (مثل sp conceptually)
-* الأفضل تستخدم `TextTheme` بدل ما تثبّت أحجام كثيرة يدويًا.
-
----
-
-# ✅ Best Practices (UI + Storage + Performance)
-
-## UI
-
-1. استخدم `const` قد ما تقدر لتقليل rebuilds
-2. استخدم `ListView.builder` بدل list ثابتة لعناصر كثيرة
-3. افصل `widgets/` reusable
-4. لا تكبّر `build()` بكود كثير — قسّم
-
-## State
-
-* البسيط: `setState`
-* متوسط: `ValueNotifier` / `ChangeNotifier`
-* مشاريع كبيرة: `Provider / Riverpod / Bloc` (اختار واحد)
-
-## Persistence
-
-1. `shared_preferences` للإعدادات فقط
-2. tokens: `flutter_secure_storage`
-3. بيانات كبيرة: `Hive` أو `SQLite`
-
-## Performance
-
-1. تجنب عمليات ثقيلة داخل `build()`
-2. استخدم `FutureBuilder` / `StreamBuilder` بشكل صحيح
-3. للصور: prefer caching (مثل `cached_network_image` لو احتجت)
+* async داخل build
+* نسيان setState
+* ListView داخل Column بدون Expanded
+* null بدون ?
 
 ---
 
-# 🎯 ملخص سريع (مقارنة ذهنية مع Android)
+## ✅ 15) النتيجة النهائية
 
-| Android             | Flutter البديل                       |
-| ------------------- | ------------------------------------ |
-| Activity / Fragment | Screen = Widget (Stateless/Stateful) |
-| XML Layout          | Widgets tree                         |
-| LinearLayout        | Row / Column                         |
-| FrameLayout         | Stack                                |
-| ScrollView          | SingleChildScrollView                |
-| RecyclerView        | ListView.builder                     |
-| Intent Navigation   | Navigator.push/pop                   |
-| SharedPreferences   | shared_preferences                   |
-| Volley + Gson       | http + jsonDecode / Models           |
+بعد هذا الملف:
 
+* تفهم Flutter من الصفر
+* تبني UI كامل
+* تتعامل مع API
+* تعرض صور
+* تخزن بيانات
+* تعمل Navigation
+* تكتب كود نظيف
+
+---
+
+## 📌 هذا الملف مناسب لـ:
+
+* 📚 الدراسة
+* 🧠 المراجعة
+* 🧪 التدريب
+* 🧑‍💻 GitHub README
+* 🎓 الامتحانات
+
+---
+
+إذا بدك الخطوة التالية:
+
+* 🔥 Roadmap احتراف Flutter
+* 🔥 مشاريع تدريبية
+* 🔥 تحويله PDF
+* 🔥 تقسيمه Modules
+
+احكيلي وأنا أكمل معك 👌
