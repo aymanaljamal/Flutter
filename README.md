@@ -2014,7 +2014,7 @@ StatefulBuilder(// تحديث جزء من الشاشة بدون StatefulWidget
 
 ---
 
-## 5️⃣5️⃣ ValueNotifier & ValueListenableBuilder
+~~5️⃣5️⃣ ValueNotifier & ValueListenableBuilder~~
 
 ```dart
 class CounterScreen extends StatelessWidget {
@@ -2051,9 +2051,9 @@ class CounterScreen extends StatelessWidget {
 
 ---
 
-# 🟥 14) Advanced Widgets
+~~# 🟥 14) Advanced Widgets~~
 
-## 5️⃣6️⃣ BottomNavigationBar - التنقل السفلي
+## ~~5️⃣6️⃣ BottomNavigationBar~~
 
 ```dart
 class MainScreen extends StatefulWidget {
@@ -2103,7 +2103,7 @@ class _MainScreenState extends State<MainScreen> {
 
 ---
 
-## 5️⃣7️⃣ Drawer - القائمة الجانبية
+## ~~5️⃣7️⃣ Drawer - القائمة الجانبية~~
 
 ```dart
 Scaffold(
@@ -2154,7 +2154,7 @@ Scaffold(
 
 ---
 
-## 5️⃣8️⃣ DropdownButton - قائمة منسدلة
+## ~~5️⃣8️⃣ DropdownButton - قائمة منسدلة~~
 
 ```dart
 class DropdownExample extends StatefulWidget {
@@ -2190,7 +2190,7 @@ class _DropdownExampleState extends State<DropdownExample> {
 
 ---
 
-## 5️⃣9️⃣ TabBar - تبويبات
+## ~~5️⃣9️⃣ TabBar - تبويبات~~
 
 ```dart
 class TabBarExample extends StatelessWidget {
@@ -2315,8 +2315,7 @@ class _LoginFormState extends State<LoginForm> {
 ### 1️⃣ async في build():
 
 ```dart
-// ❌ خطأ
-@override
+@override// ❌ خطأ
 Widget build(BuildContext context) async {  // خطأ
   await loadData();
   return Scaffold(...);
@@ -2335,8 +2334,7 @@ Widget build(BuildContext context) {
 ### 2️⃣ نسيان setState:
 
 ```dart
-// ❌ خطأ
-void increment() {
+oid increment() {// ❌ خطأ
   counter++;  // لن يعمل
 }
 
@@ -2351,8 +2349,7 @@ void increment() {
 ### 3️⃣ ListView داخل Column:
 
 ```dart
-// ❌ خطأ
-Column(
+Column(// ❌ خطأ
   children: [
     ListView(...),  // Error!
   ],
@@ -2371,8 +2368,7 @@ Column(
 ### 4️⃣ null بدون ?:
 
 ```dart
-// ❌ خطأ
-String name;  // Error: must be initialized
+String name;  // Error: must be initialized// ❌ خطأ
 
 // ✅ صح
 String? name;  // OK: can be null
@@ -2403,8 +2399,7 @@ lib/
 ### 2️⃣ استخدام const:
 
 ```dart
-// ✅ أفضل للأداء
-const Text("Hello");
+const Text("Hello");// ✅ أفضل للأداء
 const SizedBox(height: 20);
 const Icon(Icons.home);
 ```
@@ -2412,8 +2407,7 @@ const Icon(Icons.home);
 ### 3️⃣ تسمية واضحة:
 
 ```dart
-// ✅ جيد
-final List<User> activeUsers = [];
+final List<User> activeUsers = [];// ✅ جيد
 void fetchUserData() {}
 
 // ❌ سيء
