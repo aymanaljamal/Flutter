@@ -273,7 +273,6 @@ register("test@test.com", password: "123456");
 ## 1️⃣1️⃣ List
 
 ```dart
-// إنشاء List
 List<int> numbers = [1, 2, 3, 4, 5];
 List<String> fruits = ["Apple", "Banana", "Orange"];
 
@@ -312,7 +311,6 @@ print(tags.length);   // 4
 ## 1️⃣3️⃣ Map (Key / Value)
 
 ```dart
-// إنشاء Map
 Map<String, int> scores = {
   "Ali": 90,
   "Sara": 85,
@@ -381,7 +379,6 @@ print(expensive); // Phone, Laptop
 ## 1️⃣5️⃣ Class
 
 ```dart
-// Class بسيط
 class Student {
   String name;
   int age;
@@ -624,8 +621,7 @@ class _CounterScreenState extends State<CounterScreen> {
 ## 2️⃣1️⃣ setState() - مهم جدًا
 
 ```dart
-// ❌ خطأ - التغيير بدون setState
-void increment() {
+void increment() {// ❌ خطأ - التغيير بدون setState
   counter++; // لن يعمل
 }
 
@@ -684,8 +680,8 @@ Widget build(BuildContext context) {
 ## 2️⃣3️⃣ BuildContext
 
 ```dart
-// استخدامات BuildContext
-void showMessage(BuildContext context) {
+void showMessage(BuildContext context) {// استخدامات BuildContext
+
   // 1. الحصول على Theme
   var theme = Theme.of(context);
   
