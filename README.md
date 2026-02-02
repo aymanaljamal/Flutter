@@ -984,7 +984,6 @@ ListView(
 ## 3️⃣1️⃣ ListView.builder - مهم جدًا
 
 ```dart
-// قائمة ديناميكية
 List<String> items = ["Apple", "Banana", "Orange", "Mango"];
 
 ListView.builder(
@@ -1199,8 +1198,7 @@ FloatingActionButton.extended(
 ## 3️⃣6️⃣ Callbacks - الدوال التفاعلية
 
 ```dart
-// ✅ الطريقة الصحيحة - تمرير اسم الدالة
-void myFunction() {
+void myFunction() {// ✅ الطريقة الصحيحة - تمرير اسم الدالة
   print("Button clicked!");
 }
 
@@ -1209,9 +1207,9 @@ ElevatedButton(
   child: Text("Click Me"),
 );
 
-// أو دالة مباشرة
 ElevatedButton(
-  onPressed: () {
+  onPressed: () {// أو دالة مباشرة
+
     print("Clicked!");
   },
   child: Text("Click"),
@@ -1241,8 +1239,8 @@ ElevatedButton(
 ## 3️⃣7️⃣ فتح شاشة جديدة
 
 ```dart
-// الشاشة الأولى
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatelessWidget {// الشاشة الأولى
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -1286,8 +1284,8 @@ class SecondScreen extends StatelessWidget {
 ## 3️⃣8️⃣ تمرير البيانات بين الشاشات
 
 ```dart
-// إرسال بيانات
-Navigator.push(
+Navigator.push(// إرسال بيانات
+
   context,
   MaterialPageRoute(
     builder: (context) => DetailScreen(
@@ -1321,8 +1319,8 @@ class DetailScreen extends StatelessWidget {
 ## 3️⃣9️⃣ استقبال بيانات عند الرجوع
 
 ```dart
-// الشاشة الأولى
-void openSecondScreen() async {
+void openSecondScreen() async {// الشاشة الأولى
+
   final result = await Navigator.push(
     context,
     MaterialPageRoute(builder: (context) => SecondScreen()),
@@ -1374,8 +1372,7 @@ Container(
 ## 4️⃣1️⃣ Custom Colors
 
 ```dart
-// لون مخصص من Hex
-Color myColor = Color(0xFF42A5F5);
+Color myColor = Color(0xFF42A5F5);// لون مخصص من Hex
 
 // لون من ARGB
 Color myColor2 = Color.fromARGB(255, 66, 165, 245);
@@ -1428,8 +1425,8 @@ Container(
 ## 4️⃣3️⃣ Future & async/await
 
 ```dart
-// Future بسيط
-Future<String> fetchData() async {
+Future<String> fetchData() async {// Future بسيط
+
   await Future.delayed(Duration(seconds: 2));
   return "Data loaded!";
 }
